@@ -23,3 +23,13 @@
   service:
     name: jenkins
     state: restarted
+
+
+- name: Install plugin
+  jenkins_plugin:
+    name: amazon-ecs-plugin
+    url_username: admin
+    url_password: admin
+    url: http://127.0.0.1:8080
+
+
