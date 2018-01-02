@@ -24,12 +24,16 @@
     name: jenkins
     state: restarted
 
+- name: Verify the password
+  slurp:
+    src: /var/lib/jenkins/secrets/initialAdminPassword
+  register: pass
 
 - name: Install plugin
   jenkins_plugin:
     name: amazon-ecs-plugin
     url_username: admin
-    url_password: admin
+    url_password: "{{  pass.content | b64decode | replace('\n', '') }}"
     url: http://127.0.0.1:8080
 
 
