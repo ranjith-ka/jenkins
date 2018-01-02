@@ -1,0 +1,5 @@
+---
+# tasks file for jenkins
+
+- name: Install java for jenkins
+  
