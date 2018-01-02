@@ -1,0 +1,7 @@
+---
+# tasks file for jenkins
+- name: "Deploy Jenkins"
+  hosts: localhost
+  gather_facts: false
+  roles:
+       - { role: jenk_install, tags: [""] }
