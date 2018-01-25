@@ -1,0 +1,30 @@
+#---------------------------------------------------------------------------------
+# Jenkins-Master
+#---------------------------------------------------------------------------------
+
+# Dependencies
+- name: Ensure all required packages are installed
+  yum: name={{ item }} state=latest
+  with_items:
+    - git
+    - epel-release
+    - java
+    - wget
+
+# Cloud-based
+- name: Create Jenkins  yum repo
+  yum_repository: name="jenkins"
+                  description="Jenkins Repo"
+                  baseurl=http://pkg.jenkins-ci.org/redhat-stable
+                  gpgcheck=1
+                  gpgkey=http://pkg.jenkins-ci.org/redhat-stable/jenkins-ci.org.key
+                  enabled=yes
+
+# install Jenkins
+- name: Install jenkins
+  yum: name=jenkins  state=present  update_cache=yes
+
+- name: Jenkins is running
+  service:
+    name: jenkins
+    state: started
