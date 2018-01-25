@@ -1,0 +1,23 @@
+#---------------------------------------------------------------------------
+# Install Jenkins in CentOS
+#---------------------------------------------------------------------------
+
+# 
+- name: Install and configure Jenkins
+  hosts: jenkins-master
+  remote_user: "{{ remote_user }}"
+  become: true
+  vars_files:
+    - vars/all.yml
+  roles:
+    - { role: jenkins-master, tags: ["Jenkins-master"] }
+
+# Jenkins Slave
+- name: Install Jenkins Slave
+  hosts: jenkins-slave
+  remote_user: "{{ remote_user }}"
+  become: true
+  vars_files:
+    - vars/all.yml
+  roles:
+    - { role: jenkins-slave, tags: ["Jenkins-slave"] }
