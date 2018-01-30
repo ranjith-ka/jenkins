@@ -9,6 +9,7 @@
   become: true
   vars_files:
     - vars/all.yml
+    - vars/jenkins-master.yml
   roles:
     - { role: jenkins-master, tags: ["Jenkins-master"] }
 
