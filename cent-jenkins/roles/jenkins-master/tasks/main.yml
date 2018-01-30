@@ -20,11 +20,82 @@
                   gpgkey=http://pkg.jenkins-ci.org/redhat-stable/jenkins-ci.org.key
                   enabled=yes
 
-# install Jenkins
+# Install Jenkins
 - name: Install jenkins
-  yum: name=jenkins  state=present  update_cache=yes
+  yum: name=jenkins-{{ jenkins_version }}  state=present  update_cache=yes
 
+
+# Start Jenkins
 - name: Jenkins is running
   service:
     name: jenkins
     state: started
+
+
+# Start jenkins on startup
+- name: Start jenkins on boot
+  shell: chkconfig jenkins on
+
+
+# Wait for Jenkins to create a file
+- name: Wait until the Jenkins file is present before continuing
+  wait_for: 
+    timeout: 300
+    path: /var/lib/jenkins/secrets/initialAdminPassword
+    delay: 10
+
+# Wait for Jenkins to create a file
+- name: Wait until the Jenkins port is available
+  wait_for: 
+    timeout: 300
+    port: "{{ jenkins_port }}"
+    delay: 10
+
+
+# Download the JAR file 
+- name: Download Jenkins Jar file 
+  get_url:
+    url: http://127.0.0.1:8080/jnlpJars/jenkins-cli.jar
+    dest: /var/lib/jenkins
+    mode: 0440
+
+
+# Verify the password
+- name: Verify the password
+  slurp:
+    src: /var/lib/jenkins/secrets/initialAdminPassword
+  register: pass
+
+
+- name: interacting with an untrusted HTTPS connection and create Jenkins user
+  jenkins_script:
+    script: jenkins.model.Jenkins.instance.securityRealm.createAccount("jenkins", "jenkins")
+    user: admin
+    password: "{{  pass.content | b64decode | replace('\n', '') }}"
+    url: http://localhost:8080
+    validate_certs: no
+
+    
+# Install the build plugins
+# Intial build pipe line need more plugins to install
+
+- name: Install required plugins
+  jenkins_plugin:
+    name: "{{ item }}"
+    url_username: admin
+    url_password: "{{  pass.content | b64decode | replace('\n', '') }}"
+    url: http://127.0.0.1:8080
+    timeout: 120
+  with_items: 
+    - build-pipeline-plugin
+    - bitbucket
+    - matrix-auth
+    - ec2-fleet
+
+
+- name: Restart Jenkins 
+  service:
+    name: jenkins
+    state: restarted
+
+
