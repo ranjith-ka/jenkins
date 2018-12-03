@@ -1,6 +1,6 @@
 // define the bitbucket project + repos we want to build
 def bitbucket_project = 'dynalean'
-def bitbucket_repos = ['aws-omnius-infra']
+def bitbucket_repos = ['aws-omnius-infra, kube-vnext']
 
 // create a pipeline job for each of the repos and for each feature branch.
 for (bitbucket_repo in bitbucket_repos)
@@ -23,9 +23,9 @@ for (bitbucket_repo in bitbucket_repos)
     branchSources {
       branchSource {
         source {
-          bitbucket {
+          github {
             credentialsId('dynalean-api-key-credential')
-            serverUrl("https://bitbucket.org/")
+            remote("https://bitbucket.org/")
             repoOwner("${bitbucket_project}")
             repository("${bitbucket_repo}")
           }
