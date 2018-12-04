@@ -1,0 +1,3 @@
+[appName:'provider-portal-sample1', projectName:'dev', repoName:'provider-portal-app-test', view:'view1', scriptId:'f33a9f0d-9500-479b-a371-93e337529ee4', appTeam:'Team1']
+[appName:'provider-portal-sample2', projectName:'dev', repoName:'provider-portal-app-test', view:'view2', scriptId:'f33a9f0d-9500-479b-a371-93e337529ee4', appTeam:'Team2']
+[appName:'provider-portal-sample3', projectName:'dev', repoName:'provider-portal-app-test', view:'view3', scriptId:'f33a9f0d-9500-479b-a371-93e337529ee4', appTeam:'Team1']
