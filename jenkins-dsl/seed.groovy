@@ -5,10 +5,14 @@ def bitbucket_repos = ["aws-omnius-infra", "kube-vnext"]
 // create a pipeline job for each of the repos and for each feature branch.
 for (bitbucket_repo in bitbucket_repos)
 {
-  multibranchPipelineJob("${bitbucket_repo}") {
+  multibranchPipelineJob("${bitbucket_repo}") extends jobs {
+
+    jdk('Java 8')
     // configure the branch / PR sources
     displayName ("${bitbucket_repo}")
     description ""
+
+
     factory {
         pipelineBranchDefaultsProjectFactory {
             // The ID of the default Jenkinsfile to use from the global Config
@@ -56,6 +60,10 @@ for (bitbucket_repo in bitbucket_repos)
       traits << 'com.cloudbees.jenkins.plugins.bitbucket.BranchDiscoveryTrait' {
         strategyId(3) // detect all branches
       }
+    }
+        configure { node ->
+        // node represents <project>
+        jdk('Java 10')
     }
 
     // check every minute for scm changes as well as new / deleted branches
