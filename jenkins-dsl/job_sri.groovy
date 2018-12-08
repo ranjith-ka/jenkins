@@ -3,9 +3,8 @@ import org.yaml.snakeyaml.Yaml
 
 def res = new Yaml().load(new FileReader("${WORKSPACE}/jenkins-dsl/yml_config.yml"))
 
-for (repo in res.Application_name)
-{
-job(repo) {
+res.Application_name.each{ project, id -> 
+job(project) {
     description()
     keepDependencies(false)
     parameters {
@@ -20,7 +19,7 @@ job(repo) {
         publishOverSsh {
             server('Ansible2') {
                 transferSet {
-                    execCommand('ansible-playbook ~/non-prod/provider_portal/pp.yml  --extra-vars env_name=${params.envs} task_name=${params.action} ')
+                    execCommand("""ansible-playbook ~/non-prod/${id.dd}/tes.yml  --extra-vars env_name=\${envs} task_name=\${action} """)
                 }
             }
         }

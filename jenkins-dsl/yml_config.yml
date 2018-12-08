@@ -1,7 +1,15 @@
 Application_name:
-  - application1
-  - application2
-  - application3
-
+  application1:
+        name: Test
+        dd: ert
+  application2:
+        name: Test2
+        aa: wewer
+  application3:
+        name: Test4
+        qq: erer
+  application4:
+        name: Test5
+        qq: ererere
 
 
