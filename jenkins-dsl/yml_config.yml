@@ -1,15 +1,73 @@
+gitCredentials: 
+    d1apjnksmas101: 6ef079ea-c447-4018-9f86-e6ebee57f60f
+    papjnksmas101: 6ef079ea-c447-4018-9f86-e6ebee57f60f  
+
+appName:
+    provider-portal-app-test: 
+        projectName: dev
+        repoName: provider-portal-app-test 
+        commonApp: 'N'
+        scriptId: Jenkinsfile-apps  
+        permission: 
+            - R^BT_DevOps
+            - ssbanda
+            - rrvivek
+
+    hashing-utility:
+        projectName: dev 
+        repoName: multi_branch_poc
+        commonApp: 'Y'
+        scriptId: Jenkinsfile
+        permission: 
+            - R^BT_DevOps
+            - ssbanda
+   
+
 Application_name:
-  application1:
-        name: Test
-        dd: ert
-  application2:
-        name: Test2
-        aa: wewer
-  application3:
-        name: Test4
-        qq: erer
-  application4:
-        name: Test5
-        qq: ererere
+    application1:
+        name: provider-portal-app
+        dd: provider_portal
+        playbook: pp.yml
+    application2:
+        name: queuemanager
+        dd: queue_manager
+        playbook: qm.yml
+    application3:
+        name: rcm-rules
+        dd: rules_rcm
+        playbook: rcm.yml
 
+#features
+deploy:
+    provider-portal-app:
+        display: myansible-job
+        war_version: 1.27.20
+        repoName: portal-app-group
+        env: q1
+        Artifact_location: release, hotfix
+        playbook: provider_portal
+        ansible_node: ansi@amadeployl001:22
+        emailRecipientList: 
+            - test@gmail.com
+        accessPermissions:
+        Team1: 
+            - R^BT_DevOps
+            - test
+            - rrvivek
+            
 
+#To Notify 
+email_notifiy:
+    accessPermissions:
+        Team1: 
+            - R^BT_DevOps
+            - test
+            - test
+        Team2:
+            - R^BT_DevOps
+            - rrvivek
+    emailRecipientList:
+        Team1:
+            - R^BT_DevOps
+            - DEFAULT_RECIPIENTS
+      
