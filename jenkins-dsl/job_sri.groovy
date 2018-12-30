@@ -4,6 +4,7 @@ import org.yaml.snakeyaml.Yaml
 def res = new Yaml().load(new FileReader("${WORKSPACE}/jenkins-dsl/yml_config.yml"))
 
 res.Application_name.each{ project, id -> 
+def display = (appsName == 'id.commonApp' ) ? "${project}-Builds": "${project}-Common"
 job(project) {
     description()
     keepDependencies(false)

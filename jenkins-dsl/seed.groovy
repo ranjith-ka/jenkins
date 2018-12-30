@@ -5,9 +5,8 @@ def bitbucket_repos = ["aws-omnius-infra", "kube-vnext"]
 // create a pipeline job for each of the repos and for each feature branch.
 for (bitbucket_repo in bitbucket_repos)
 {
-  multibranchPipelineJob("${bitbucket_repo}") extends jobs {
+  multibranchPipelineJob("${bitbucket_repo}") {
 
-    jdk('Java 8')
     // configure the branch / PR sources
     displayName ("${bitbucket_repo}")
     description ""
@@ -54,6 +53,7 @@ for (bitbucket_repo in bitbucket_repos)
       }
     }
 
+
     // discover Branches (workaround due to JENKINS-46202)
     configure {
       def traits = it / sources / data / 'jenkins.branch.BranchSource' / source / traits
@@ -77,24 +77,4 @@ for (bitbucket_repo in bitbucket_repos)
       }
     }
   }
-}
-
-listView('Infra Jobs') {
-description('All new jobs for testlist')
-filterBuildQueue()
-filterExecutors()
-jobs {
-    name('infra') 
-    name('cake') 
-
-}
-    columns {
-    status()
-    weather()
-    name()
-    lastSuccess()
-    lastFailure()
-    lastDuration()
-    buildButton()
-}
 }
