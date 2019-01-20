@@ -15,12 +15,22 @@ pipeline {
 		}
 	parameters {
 		booleanParam(
-			name: 'isReleasebranch',
+			name: 'isRelease',
 			description: 'Check its a release branch',
 			defaultValue: false
 		)
 	}
 	stages {
+		//-----------------------------------
+		// Checkout SCM
+		//-----------------------------------
+		stage('Checkout SCM'){
+			steps{ 
+			sh 'git config --global http.sslverify false'
+			checkout scm
+			echo 'COMPLETE: Checkout SCM'
+			}
+		}
 		stage('Testing') {
 			steps {
                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
