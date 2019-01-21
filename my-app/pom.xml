@@ -5,7 +5,7 @@
 
   <groupId>com.mycompany.app</groupId>
   <artifactId>my-app</artifactId>
-  <version>1.0.5</version>
+  <version>1.0.6-SNAPSHOT</version>
 
   <name>my-app</name>
   <!-- FIXME change it to the project's website -->
@@ -14,7 +14,7 @@
     <connection>scm:git:git@github.com:ranjith-ka/jenkins.git</connection>
     <url>https://github.com/ranjith-ka/jenkins.git</url>
     <developerConnection>scm:git:git@github.com:ranjith-ka/jenkins.git</developerConnection>
-    <tag>my-app-1.0.5</tag>
+    <tag>HEAD</tag>
   </scm>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
