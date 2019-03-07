@@ -1,0 +1,97 @@
+ARTIFACT_PATH="/apps/jenkins/ant-workspace"
+PROJECT_ARTIFACT_PATH="${ARTIFACT_PATH}/${JOB_NAME}"
+PROJECT_RELEASE_DIR="${PROJECT_ARTIFACT_PATH}/${RELEASE_VERSION}"
+
+if [[ ! -d "${PROJECT_ARTIFACT_PATH}" ]]; then
+    
+    mkdir ${PROJECT_ARTIFACT_PATH}
+fi
+
+#
+# Release hardcoding - need to update this with actual value
+if [[ ! -d "${PROJECT_RELEASE_DIR}" ]]; then
+    
+    mkdir ${PROJECT_RELEASE_DIR}
+fi
+
+
+#
+# Copy
+cd ${WORKSPACE}/build/dist
+
+if [[ ! -d "${WORKSPACE}/build/dist" ]]; then
+    
+    echo " ERROR : Specified artifacts directory does not exist. Please check your build configuration."
+    echo " Aborted."
+    exit 1
+fi
+
+for i in `ls -ltr *.war`
+do
+    response=$(curl --write-out %{http_code} \
+        --output /dev/null \
+        --user admin:admin123 \
+        --upload-file $i \
+    http://papnexus101:8081/repository/Releases/com/carecentrix/ant/${RELEASE_VERSION}/${RELEASE_VERSION}-$i)
+done
+
+
+if [[ $POM -eq 0 &&  $XML -eq 0 && $JAR -eq 0 && -$WAR -eq 0 && $XML -eq 0 ]];then
+    echo "Copy Job Success" | mail -s "Nexus Success"
+else
+    echo "$1$f is not ok"
+fi
+
+
+if [[ $? -gt 0 ]]; then
+    echo " ERROR : Problem occured while copying WAR to $PROJECT_RELEASE_DIR"
+    exit 1
+fi
+
+#
+# Zip dist folder
+DIST_PATH="${WORKSPACE}/build"
+cd $DIST_PATH
+
+zip -r dist.zip dist
+
+# cp dist.zip ${PROJECT_RELEASE_DIR}
+
+# ${params.RELEASE_VERSION} ${params.BRANCH_NAME}
+curl --upload-file dist.zip
+
+if [[ $? -gt 0 ]]; then
+    echo " ERROR : Problem occured while copying WAR to $PROJECT_RELEASE_DIR"
+    exit 1
+fi
+
+#
+# Create Tag
+git tag -a ${RELEASE_VERSION} -m "Creating version for ${RELEASE_VERSION}"
+
+if [[ $? -gt 0 ]]; then
+    
+    echo " ERROR : Problem occured while creating tag for '${RELEASE_VERSION}'"
+    exit 1
+fi
+
+#
+# Push Tags to remote Repo
+GIT_REMOTE_URL=$(git remote -v | grep push)
+GIT_REMOTE_URL=${GIT_REMOTE_URL//*bitbucket\//}
+GIT_REMOTE_URL=${GIT_REMOTE_URL// \(*/}
+
+set +x
+export `cat /ccx/home/devopssvc/.build.credentials`
+
+
+PUSH_URL="https://${GIT_USERNAME}:${GIT_PASSWORD}@bitbucket/${GIT_REMOTE_URL}"
+
+set +x
+git push --tags $PUSH_URL --quiet
+
+if [[ $? -gt 0 ]]; then
+    
+    echo " ERROR : Problem occured while pushing 'tag' to Bitbucket Repo"
+    exit 1
+fi

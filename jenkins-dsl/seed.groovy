@@ -1,6 +1,6 @@
 // define the bitbucket project + repos we want to build
-def bitbucket_project = 'dynalean'
-def bitbucket_repos = ['aws-omnius-infra, kube-vnext']
+def bitbucket_project = 'test'
+def bitbucket_repos = ['test1, test2']
 
 // create a pipeline job for each of the repos and for each feature branch.
 for (bitbucket_repo in bitbucket_repos)
