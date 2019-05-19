@@ -6,9 +6,12 @@ def bitbucket_repos = ['test1, test2']
 for (bitbucket_repo in bitbucket_repos)
 {
   multibranchPipelineJob("${bitbucket_repo}") {
+
     // configure the branch / PR sources
     displayName ("${bitbucket_repo}")
     description ""
+
+
     factory {
         pipelineBranchDefaultsProjectFactory {
             // The ID of the default Jenkinsfile to use from the global Config
@@ -50,12 +53,17 @@ for (bitbucket_repo in bitbucket_repos)
       }
     }
 
+
     // discover Branches (workaround due to JENKINS-46202)
     configure {
       def traits = it / sources / data / 'jenkins.branch.BranchSource' / source / traits
       traits << 'com.cloudbees.jenkins.plugins.bitbucket.BranchDiscoveryTrait' {
         strategyId(3) // detect all branches
       }
+    }
+        configure { node ->
+        // node represents <project>
+        jdk('Java 10')
     }
 
     // check every minute for scm changes as well as new / deleted branches
