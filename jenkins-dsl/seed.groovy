@@ -27,7 +27,7 @@ for (bitbucket_repo in bitbucket_repos)
       branchSource {
         source {
           github {
-            credentialsId('dynalean-api-key-credential')
+            credentialsId('api-credential')
             remote("https://bitbucket.org/")
             repoOwner("${bitbucket_project}")
             repository("${bitbucket_repo}")
