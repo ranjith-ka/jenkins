@@ -1,0 +1,185 @@
+{
+    "name": "FORD_node_1_list",
+    "nodes": {
+        "MAIDS": {
+            "ipAddresses": "172.18.5.125 172.18.5.29",
+            "runListConsulDereg": "recipe[identity-service::consulDeregister]",
+            "runListDBUpgrade": "sudo chef-client -o recipe[identity-service::db],recipe[ma-service::db]",
+            "runListDeployApp": "recipe[identity-service::app],recipe[identity-service::consulConfig],recipe[identity-service::consulRegister]",
+            "stopservices": "ma identity-service"
+        },
+        "MAIDS_New_Post_Deploy": {
+            "ipAddresses": "172.18.5.125",
+            "runListConsulDereg": "",
+            "runListDBUpgrade": "",
+            "runListDeployApp": "recipe[identity-service::post-deploy-new]",
+            "stopservices": "identity-service"
+        },
+        "FORD_PKGR": {
+            "ipAddresses": "172.18.5.72 172.18.5.24",
+            "runListConsulDereg": "recipe[package-manager::consulDeregister]",
+            "runListDBUpgrade": "",
+            "runListDeployApp": "recipe[package-manager::app],recipe[package-manager::consulConfig],recipe[package-manager::consulRegister]",
+            "stopservices": "pkgr"
+        },
+        "CRS": {
+            "ipAddresses": "172.18.5.125 172.18.5.29",
+            "runListConsulDereg": "recipe[content-repository-service::consulDeregister]",
+            "runListDBUpgrade": "recipe[content-repository-service::db],recipe[content-repository-service::db-upgrade]",
+            "runListDeployApp": "recipe[content-repository-service::app],recipe[content-repository-service::consulConfig],recipe[content-repository-service::consulRegister]",
+            "stopservices": "content-repo"
+        },
+        "V3MAC": {
+            "ipAddresses": "172.18.5.125 172.18.5.29",
+            "runListConsulDereg": "recipe[v3api::consulDeregister],recipe[saas-mac::consulDeregister]",
+            "runListDBUpgrade": "",
+            "runListDeployApp": "recipe[v3api::app],recipe[v3api::consulConfig],recipe[v3api::consulRegister]",
+            "stopservices": "v3api"
+        },
+        "MAHAP": {
+            "ipAddresses": "172.18.2.53 172.18.2.7",
+            "runListConsulDereg": "",
+            "runListDBUpgrade": "",
+            "runListDeployApp": "",
+            "stopservices": ""
+        },
+        "FORD_EXTHAP": {
+            "ipAddresses": "172.18.2.59 172.18.2.10",
+            "runListConsulDereg": "",
+            "runListDBUpgrade": "",
+            "runListDeployApp": "",
+            "stopservices": ""
+        },
+        "FORD_INTHAP": {
+            "ipAddresses": "172.18.2.26 172.18.2.4",
+            "runListConsulDereg": "",
+            "runListDBUpgrade": "",
+            "runListDeployApp": "",
+            "stopservices": ""
+        },
+        "FORD_SAAS": {
+            "ipAddresses": "172.18.5.22 172.18.5.90",
+            "runListConsulDereg": "recipe[saas::consulDeregister]",
+            "runListDBUpgrade": "",
+            "runListDeployApp": "",
+            "stopservices": ""
+        },
+        "FORD_CH": {
+            "ipAddresses": "172.18.5.22 172.18.5.27",
+            "runListConsulDereg": "recipe[saas-channel::consulDeregister],recipe[saas-ac::consulDeregister]",
+            "runListDBUpgrade": "",
+            "runListDeployApp": "",
+            "stopservices": ""
+        },
+        "FORD_ADV": {
+            "ipAddresses": "172.18.5.90 172.18.5.107",
+            "runListConsulDereg": "recipe[saas-da::consulDeregister],recipe[saas-validator::consulDeregister]",
+            "runListDBUpgrade": "",
+            "runListDeployApp": "",
+            "stopservices": ""
+        },
+        "FORD_SS": {
+            "ipAddresses": "172.18.5.42 172.18.5.61",
+            "runListConsulDereg": "recipe[session-service::consulDeregister]",
+            "runListDBUpgrade": "recipe[session-service::db],recipe[session-service::db-upgrade]",
+            "runListDeployApp": "recipe[session-service::app],recipe[session-service::consulConfig],recipe[session-service::consulRegister]",
+            "stopservices": "session-service"
+        },
+        "FORD_P2C": {
+            "ipAddresses": "172.16.5.74",
+            "runListConsulDereg": "recipe[pc2cloud-service::consulDeregister],recipe[pc2cloudUI::consulDeregister]",
+            "runListDBUpgrade": "recipe[pc2cloud-service::db],recipe[pc2cloud-service::db-upgrade]",
+            "runListDeployApp": "recipe[pc2cloud-service::app],recipe[pc2cloudUI::app],recipe[pc2cloud-service::consulConfig],recipe[pc2cloudUI::consulConfig],recipe[pc2cloud-service::consulRegister],recipe[pc2cloudUI::consulRegister]",
+            "stopservices": "pc2cloud pc2cloudUI"
+        },
+        "FORD_JLSDI": {
+            "ipAddresses": "172.18.5.42 172.18.5.61",
+            "runListConsulDereg": "recipe[jls-di::consulDeregister]",
+            "runListDBUpgrade": "recipe[jls-di::db],recipe[jls-di::db-upgrade]",
+            "runListDeployApp": "recipe[jls-di::app],recipe[jls-di::consulConfig],recipe[jls-di::consulRegister]",
+            "stopservices": "jls-di"
+        },
+        "FORD_AUTOSC": {
+            "ipAddresses": "172.18.5.117 172.18.5.121",
+            "runListConsulDereg": "recipe[autoscaler-service::consulDeregister]",
+            "runListDBUpgrade": "recipe[autoscaler-service::db],recipe[autoscaler-service::db-upgrade]",
+            "runListDeployApp": "recipe[autoscaler-service::app],recipe[autoscaler-service::consulConfig],recipe[autoscaler-service::consulRegister]",
+            "stopservices": "autoscaler-service"
+        },
+        "FORD_FRS": {
+            "ipAddresses": "172.18.5.42 172.18.5.61",
+            "runListConsulDereg": "recipe[frs::consulDeregister]",
+            "runListDBUpgrade": "recipe[frs::db],recipe[frs::db-upgrade]",
+            "runListDeployApp": "recipe[frs::app],recipe[frs::consulConfig],recipe[frs::consulRegister]",
+            "stopservices": "frs"
+        },
+        "FORD_LIC": {
+            "ipAddresses": "172.18.5.42 172.18.5.61",
+            "runListConsulDereg": "recipe[license-service::consulDeregister]",
+            "runListDBUpgrade": "recipe[license-service::db],recipe[license-service::db-upgrade]",
+            "runListDeployApp": "recipe[license-service::app],recipe[license-service::consulConfig],recipe[license-service::consulRegister]",
+            "stopservices": "license-service"
+        },
+        "FORD_CMS1": {
+            "ipAddresses": "172.18.5.118 172.18.5.80",
+            "runListConsulDereg": "recipe[migration-service::consulDeregister],recipe[bundle-service::consulDeregister],recipe[auditlog-service::consulDeregister],recipe[hierarchyservice::consulDeregister],recipe[ca-service::consulDeregister]",
+            "runListDBUpgrade": "recipe[migration-service::db],recipe[migration-service::db-upgrade],recipe[bundle-service::db],recipe[bundle-service::db-upgrade],recipe[auditlog-service::db],recipe[auditlog-service::db-upgrade]",
+            "runListDeployApp": "recipe[migration-service::app],recipe[migration-service::consulConfig],recipe[migration-service::consulRegister],recipe[bundle-service::app],recipe[bundle-service::consulConfig],recipe[bundle-service::consulRegister],recipe[auditlog-service::app],recipe[auditlog-service::consulConfig],recipe[auditlog-service::consulRegister],recipe[hierarchyservice::app],recipe[hierarchyservice::consulConfig],recipe[hierarchyservice::consulRegister],recipe[ca-service::app],recipe[ca-service::consulConfig],recipe[ca-service::consulRegister]",
+            "stopservices": "migration auditlog-service bundle-service hierarchyservice ca-service"
+        },
+        "FORD_CMS2": {
+            "ipAddresses": "172.18.5.104 172.18.5.44",
+            "runListConsulDereg": "recipe[notification-service::consulDeregister],recipe[cloudUI::consulDeregister],recipe[cloudshell::consulDeregister]",
+            "runListDBUpgrade": "",
+            "runListDeployApp": "recipe[notification-service::app],recipe[notification-service::consulConfig],recipe[notification-service::consulRegister],recipe[cloudUI::app],recipe[cloudUI::consulConfig],recipe[cloudUI::consulRegister],recipe[cloudshell::app],recipe[cloudshell::consulConfig],recipe[cloudshell::consulRegister]",
+            "stopservices": "cloudshell cloudUI notification-service"
+        },
+        "FORD_CMS3": {
+            "ipAddresses": "172.18.5.117 172.18.5.121",
+            "runListConsulDereg": "recipe[v3api::consulDeregister],recipe[callback-service::consulDeregister]",
+            "runListDBUpgrade": "",
+            "runListDeployApp": "recipe[v3api::app],recipe[v3api::consulConfig],recipe[v3api::consulRegister],recipe[callback-service::app],recipe[callback-service::consulConfig],recipe[callback-service::consulRegister]",
+            "stopservices": "v3api callback-service"
+        },
+        "FORD_KMS": {
+            "ipAddresses": "",
+            "runListConsulDereg": "recipe[kms-service::consulDeregister]",
+            "runListDBUpgrade": "",
+            "runListDeployApp": "",
+            "stopservices": ""
+        },
+        "FORD_SCH": {
+            "ipAddresses": "172.18.5.42 172.18.5.61",
+            "runListConsulDereg": "recipe[scheduler-service::consulDeregister]",
+            "runListDBUpgrade": "recipe[scheduler-service::db],recipe[scheduler-service::db-upgrade]",
+            "runListDeployApp": "recipe[scheduler-service::app],recipe[scheduler-service::consulConfig],recipe[scheduler-service::consulRegister]",
+            "stopservices": "scheduler"
+        },
+        "FORD_KAFKA": {
+            "ipAddresses": "172.18.5.106 172.18.5.110 172.18.5.74",
+            "runListConsulDereg": "",
+            "runListDBUpgrade": "",
+            "runListDeployApp": "",
+            "stopservices": ""
+        },
+        "FORD_LIC_NEW_Post_deploy": {
+            "ipAddresses": "172.18.5.42",
+            "runListConsulDereg": "",
+            "runListDBUpgrade": "",
+            "runListDeployApp": "recipe[license-service::post-deploy-new]",
+            "stopservices": "license-service"
+        },
+        "FORD_CMS2_NEW_Post_deploy": {
+            "ipAddresses": "172.18.5.104",
+            "runListConsulDereg": "",
+            "runListDBUpgrade": "",
+            "runListDeployApp": "recipe[cloudshell::post-deploy-new]",
+            "stopservices": "cloudshell"
+        },
+        "COMMON": {
+            "SSH_USER": "ec2-user",
+            "SSH_KEY": "/home/centos/iics-FORDoitte-use1-12202018.pem",
+            "ICS_USER": "icsuser"
+        }
+    }
+}
