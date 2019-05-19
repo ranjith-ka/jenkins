@@ -1,17 +1,17 @@
 gitCredentials: 
-    d1apjnksmas101: 6ef079ea-c447-4018-9f86-e6ebee57f60f
-    papjnksmas101: 6ef079ea-c447-4018-9f86-e6ebee57f60f  
+    d1apjnksmas101: git-credentails
+    papjnksmas101: git-credentails  
 
 appName:
     provider-portal-app-test: 
         projectName: dev
-        repoName: provider-portal-app-test 
+        repoName: repo1
         commonApp: 'N'
         scriptId: Jenkinsfile-apps  
         permission: 
-            - R^BT_DevOps
-            - ssbanda
-            - rrvivek
+            - user1
+            - user1
+            - user2
 
     hashing-utility:
         projectName: dev 
@@ -19,8 +19,8 @@ appName:
         commonApp: 'Y'
         scriptId: Jenkinsfile
         permission: 
-            - R^BT_DevOps
-            - ssbanda
+            - user1
+            - user3
    
 
 Application_name:
@@ -33,41 +33,41 @@ Application_name:
         dd: queue_manager
         playbook: qm.yml
     application3:
-        name: rcm-rules
-        dd: rules_rcm
-        playbook: rcm.yml
+        name: app1
+        dd: rules
+        playbook: play.yml
 
 #features
 deploy:
     provider-portal-app:
         display: myansible-job
         war_version: 1.27.20
-        repoName: portal-app-group
+        repoName: repo3
         env: q1
         Artifact_location: release, hotfix
-        playbook: provider_portal
-        ansible_node: ansi@amadeployl001:22
+        playbook: playbook
+        ansible_node: ansi@server:22
         emailRecipientList: 
             - test@gmail.com
         accessPermissions:
         Team1: 
-            - R^BT_DevOps
+            - user1
             - test
-            - rrvivek
+            - user4
             
 
 #To Notify 
 email_notifiy:
     accessPermissions:
         Team1: 
-            - R^BT_DevOps
+            - user1
             - test
             - test
         Team2:
-            - R^BT_DevOps
-            - rrvivek
+            - user2
+            - user4
     emailRecipientList:
         Team1:
-            - R^BT_DevOps
-            - DEFAULT_RECIPIENTS
+            - user1
+            - reciptents
       
