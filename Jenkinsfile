@@ -1,46 +1,90 @@
-#!groovy
-
 pipeline {
-    agent { node { label 'master' } }
-
-    options {
-        timeout(time: 15, unit: 'MINUTES')
-        buildDiscarder(logRotator(numToKeepStr: '5'))
-        disableConcurrentBuilds()
-    }
-  
-	environment {
-			NEXUS_CRED = credentials('Nexus')
-			GRADLE_NEXUS_CREDS = "-q -PnexusUser=${env.NEXUS_CRED_USR} -PnexusPassword=${env.NEXUS_CRED_PSW}"
-		}
-	parameters {
-		booleanParam(
-			name: 'isRelease',
-			description: 'Check its a release branch',
-			defaultValue: false
-		)
+	options {
+	timeout(time: 30, unit: 'MINUTES')
+	buildDiscarder(logRotator(numToKeepStr: '5'))
+	disableConcurrentBuilds()
 	}
+environment {
+  		  NEXUS_GROUPID='biztalk'
+        NEXUS_ENDPOINT = 'http://192.168.100.100:8081/'
+		    NEXUS_CRED = credentials('Nexus')
+    }
+parameters {
+      string(
+          name: 'package',
+          description: 'You want a release version?',
+          defaultValue: 'test'
+      )
+      booleanParam(
+          name: 'isrelease',
+          description: 'Do you want to release?',
+          defaultValue: false
+      )
+      string(
+          name: 'CPU',
+          description: 'Where do you want to get notified?',
+          defaultValue: ''
+      )
+    }
+	agent {
+        node {
+            label 'windows'
+        }
+    }
 	stages {
-		//-----------------------------------
-		// Checkout SCM
-		//-----------------------------------
-		stage('Checkout SCM'){
-			steps{ 
-			sh 'git config --global http.sslverify false'
-			checkout scm
-			echo 'COMPLETE: Checkout SCM'
+
+        stage("Initialize variables") {
+		    when { expression { BRANCH_NAME ==~ /develop/ } }
+            steps {
+				      powershell '.\\Scripts\\JenkinsFunctions.ps1 -getCurrentVersion'
+            }
+        }
+
+		    stage("Run Installer"){
+			  when { expression { BRANCH_NAME ==~ /develop/ } }
+            steps {
+                    powershell '.\\Scripts\\JenkinsFunctions.ps1 -installer'
+			      }
+			   }
+
+        stage ('Build ESB applications') {
+			  when { expression { BRANCH_NAME ==~ /master/ } }
+            steps {
+                powershell '.\\Scripts\\JenkinsFunctions.ps1 -installDependancy'
 			}
 		}
-		stage('Testing') {
+
+		stage('Create deployment package') {
+			when { expression { BRANCH_NAME ==~ /master/ } }
 			steps {
-               echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
-			        script {
-						currentBuild.displayName = "build"+ "${env.BUILD_ID}"
-						def now = new Date()
-        				def test =  now.format("yyMM", TimeZone.getTimeZone('UTC'))
-						echo test
-				}
-            }
-    	}		
-	}
+				powershell '.\\Scripts\\JenkinsFunctions.ps1 -createPackage'
+			}
+		}
+
+		stage('Create package ZIP') {
+			when { expression { BRANCH_NAME ==~ /master/ } }
+			steps {
+				powershell '.\\Scripts\\JenkinsFunctions.ps1 -createZip'
+			}
+		}
+
+		stage('Create a tag') {
+			when { expression { BRANCH_NAME ==~ /master/ } }
+			steps {
+				powershell '.\\Scripts\\JenkinsFunctions.ps1 -createTag'
+			}
+		}
+    }
+
+    post {
+
+	   success {
+            echo 'Success!'
+        }
+
+        failure {
+            echo 'Failure!'
+        }
+
+        }
 }
