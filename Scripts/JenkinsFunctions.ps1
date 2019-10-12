@@ -23,10 +23,11 @@ function GetCurrentVersion()
 
 function ExecuteInstallar()
 {
-    $args = '"-version"'
+    $test = "Any CPU"
+    $args = '/t:build /p:Platform=$test'
     iex ("& {0} {1}" -f $msbuild, $args)
-
 }
+
 # Calling the procedure if any was requested by the caller
 if ($getCurrentVersion) { GetCurrentVersion }
 if ($createPackage) { CreatePackage }
