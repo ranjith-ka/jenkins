@@ -1,0 +1,10 @@
+{
+    "editor.formatOnSave": true,
+    "files.associations": {
+        "Vagrantfile": "yaml",
+        "**/tasks/*.yml": "ansible",
+        "**/install/*.yml": "ansible",
+        "**/maintenance/*.yml": "ansible",
+        "Jenkinsfile*": "groovy"
+    }
+}
